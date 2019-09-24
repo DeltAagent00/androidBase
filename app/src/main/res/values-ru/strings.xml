@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="title">Погода</string>
+    <string name="town">Город</string>
+    <string name="show_humidity">Показать влажность</string>
+    <string name="show_wind_speed">Показать скорость ветра</string>
+    <string name="show_pressure">Показать давление</string>
+    <string name="button_text">Отправить запрос</string>
+
+    <string name="temperature">Температура</string>
+    <string name="humidity">Влажность</string>
+    <string name="wind_speed">Скорость ветра</string>
+    <string name="pressure">Давление</string>
+
+    <string name="error_can_not_be_empty">Не может быть пустым</string>
+
+    <string name="temperature_value">22 \u2103</string>
+    <string name="humidity_value">33%</string>
+    <string name="wind_speed_value">10 м/с</string>
+    <string name="pressure_value">755 мм рт. ст.</string>
 </resources>

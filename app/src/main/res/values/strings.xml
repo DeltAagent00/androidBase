@@ -2,4 +2,21 @@
 <resources>
     <string name="app_name" translatable="false">MyWeather</string>
     <string name="title">Weather</string>
+    <string name="town">Town</string>
+    <string name="show_humidity">Show humidity</string>
+    <string name="show_wind_speed">Show wind speed</string>
+    <string name="show_pressure">Show pressure</string>
+    <string name="button_text">Send request</string>
+
+    <string name="temperature">Temperature</string>
+    <string name="humidity">Humidity</string>
+    <string name="wind_speed">Wind speed</string>
+    <string name="pressure">Pressure</string>
+
+    <string name="error_can_not_be_empty">Can\'t be empty</string>
+
+    <string name="temperature_value">22 \u2109</string>
+    <string name="humidity_value">33%</string>
+    <string name="wind_speed_value">10 m/s</string>
+    <string name="pressure_value">755 mmHg</string>
 </resources>
