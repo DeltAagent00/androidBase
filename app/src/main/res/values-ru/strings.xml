@@ -18,4 +18,12 @@
     <string name="humidity_value">33%</string>
     <string name="wind_speed_value">10 м/с</string>
     <string name="pressure_value">755 мм рт. ст.</string>
+
+    <string-array name="town_list">
+        <item>Краснодар</item>
+        <item>Москва</item>
+        <item>Омск</item>
+        <item>Ростов-на-дону</item>
+        <item>Севастополь</item>
+    </string-array>
 </resources>

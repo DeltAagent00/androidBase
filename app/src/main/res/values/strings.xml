@@ -19,4 +19,12 @@
     <string name="humidity_value">33%</string>
     <string name="wind_speed_value">10 m/s</string>
     <string name="pressure_value">755 mmHg</string>
+
+    <string-array name="town_list">
+        <item>Krasnodar</item>
+        <item>Moscow</item>
+        <item>Omsk</item>
+        <item>Rostov-on-Don</item>
+        <item>Sevastopol</item>
+    </string-array>
 </resources>

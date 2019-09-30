@@ -22,21 +22,10 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tllTown"
+            <Spinner
+                android:id="@+id/town_spinner"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/town">
-
-                <EditText
-                    android:id="@+id/edit_text_town"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-medium"
-                    android:inputType="textCapSentences"
-                    android:textColor="@color/colorText"
-                    android:textSize="16sp" />
-            </com.google.android.material.textfield.TextInputLayout>
+                android:layout_height="wrap_content" />
 
             <include
                 android:id="@+id/humidity"

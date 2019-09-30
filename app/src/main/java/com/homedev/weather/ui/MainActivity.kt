@@ -17,10 +17,8 @@ import com.homedev.weather.utils.ViewsUtil
 class MainActivity : BaseActivityAbs() {
     @BindView(R.id.root)
     lateinit var rootView: View
-    @BindView(R.id.tllTown)
-    lateinit var ttlTownView: TextInputLayout
-    @BindView(R.id.edit_text_town)
-    lateinit var editTextTownView: EditText
+    @BindView(R.id.town_spinner)
+    lateinit var townSpinnerView: Spinner
 
     @BindView(R.id.humidity)
     lateinit var humidityView: View
@@ -40,6 +38,7 @@ class MainActivity : BaseActivityAbs() {
     @BindView(R.id.request_button)
     lateinit var requestButtonView: Button
 
+    private var townList: Array<String>? = null
 
     /** override **/
 
@@ -120,6 +119,7 @@ class MainActivity : BaseActivityAbs() {
 
     private fun initView() {
         setTitle(R.string.title)
+        initSpinnerTown()
 
         humidityTitle = humidityView.findViewById(R.id.title)
         humiditySwitch = humidityView.findViewById(R.id.switcher)
@@ -130,11 +130,6 @@ class MainActivity : BaseActivityAbs() {
         pressureTitle = pressureView.findViewById(R.id.title)
         pressureSwitch = pressureView.findViewById(R.id.switcher)
 
-        editTextTownView.addTextChangedListener(object : SimpleTextWatcher {
-            override fun afterTextChanged(s: Editable) {
-                enableTownError(false)
-            }
-        })
 
         humidityTitle?.setText(R.string.show_humidity)
         windSpeedTitle?.setText(R.string.show_wind_speed)
@@ -151,12 +146,39 @@ class MainActivity : BaseActivityAbs() {
         }
     }
 
+    private fun initSpinnerTown() {
+        townList = resources.getStringArray(R.array.town_list)
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, townList)
+        townSpinnerView.adapter = adapter
+    }
+
     private fun createModelRequest(): RequestModel {
-        val town = editTextTownView.text.toString()
+        val town = getTownBySelectedPosition(townSpinnerView.selectedItemPosition)
         val humidity = humiditySwitch?.isChecked ?: false
         val windSpeed = windSpeedSwitch?.isChecked ?: false
         val pressure = pressureSwitch?.isChecked ?: false
         return RequestModel(town, humidity, windSpeed, pressure)
+    }
+
+    private fun getTownBySelectedPosition(position: Int): String {
+        return when {
+            townList.isNullOrEmpty() -> return "Unknown town"
+            position < 0 || position >= (townList?.size ?: 0) -> townList?.first() ?: "Unknown town"
+            else -> townList?.get(position) ?: "Unknown town"
+        }
+    }
+
+    private fun getTownPositionByValue(town: String): Int {
+        val mTownList = townList ?: emptyArray()
+        var position = 0
+
+        for (item: String in mTownList) {
+            if (item == town) {
+                break
+            }
+            position++
+        }
+        return position
     }
 
     private fun parseSaved(savedInstanceState: Bundle?) {
@@ -164,7 +186,7 @@ class MainActivity : BaseActivityAbs() {
             if (it.containsKey(SAVED_REQUEST_VALUES)) {
                 val requestValues = it.get(SAVED_REQUEST_VALUES) as RequestModel
                 it.remove(SAVED_REQUEST_VALUES)
-                editTextTownView.setText(requestValues.town)
+                getTownBySelectedPosition(getTownPositionByValue(requestValues.town))
                 humiditySwitch?.isChecked = requestValues.isShowHumidity
                 windSpeedSwitch?.isChecked = requestValues.isShowWindSpeed
                 pressureSwitch?.isChecked = requestValues.isShowPressure
@@ -172,24 +194,8 @@ class MainActivity : BaseActivityAbs() {
         }
     }
 
-    private fun checkAndShowErrorInputTown(): Boolean {
-        val isValid = editTextTownView.text.toString().trim().isNotEmpty()
-        enableTownError(!isValid)
-        return isValid
-    }
-
-    private fun enableTownError(enabled: Boolean) {
-        if (enabled) {
-            ttlTownView.error = getString(R.string.error_can_not_be_empty)
-        } else {
-            ttlTownView.isErrorEnabled = false
-        }
-    }
-
     private fun onClickButton() {
-        if (checkAndShowErrorInputTown()) {
-            val requestModel = createModelRequest()
-            ResultRequestActivity.show(this, requestModel)
-        }
+        val requestModel = createModelRequest()
+        ResultRequestActivity.show(this, requestModel)
     }
 }
