@@ -7,6 +7,18 @@
     android:layout_height="match_parent"
     tools:context=".ui.MainActivity">
 
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg_main"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -50,14 +62,10 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/request_button"
-                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                style="@style/SimpleButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-
-                android:fontFamily="sans-serif-medium"
-                android:textColor="@android:color/white"
-                android:textSize="16sp" />
+                android:layout_marginTop="20dp" />
 
         </LinearLayout>
     </ScrollView>

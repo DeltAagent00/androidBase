@@ -1,16 +1,13 @@
 package com.homedev.weather.ui
 
 import android.os.Bundle
-import android.text.Editable
 import android.view.View
 import android.widget.*
 import butterknife.BindView
 import com.google.android.material.switchmaterial.SwitchMaterial
-import com.google.android.material.textfield.TextInputLayout
 import com.homedev.weather.R
-import com.homedev.weather.core.Constants.SAVED_REQUEST_VALUES
+import com.homedev.weather.core.Constants
 import com.homedev.weather.core.model.RequestModel
-import com.homedev.weather.helper.SimpleTextWatcher
 import com.homedev.weather.utils.LoggerUtils
 import com.homedev.weather.utils.ViewsUtil
 
@@ -60,7 +57,7 @@ class MainActivity : BaseActivityAbs() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         val request = createModelRequest()
-        outState.putSerializable(SAVED_REQUEST_VALUES, request)
+        outState.putSerializable(Constants.SAVED_REQUEST_VALUES, request)
 
         super.onSaveInstanceState(outState)
     }
@@ -148,8 +145,11 @@ class MainActivity : BaseActivityAbs() {
 
     private fun initSpinnerTown() {
         townList = resources.getStringArray(R.array.town_list)
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, townList)
-        townSpinnerView.adapter = adapter
+
+        townList?.let {
+            val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, it)
+            townSpinnerView.adapter = adapter
+        }
     }
 
     private fun createModelRequest(): RequestModel {
@@ -161,10 +161,11 @@ class MainActivity : BaseActivityAbs() {
     }
 
     private fun getTownBySelectedPosition(position: Int): String {
+        val unknownTown = getString(R.string.unknown_town)
         return when {
-            townList.isNullOrEmpty() -> return "Unknown town"
-            position < 0 || position >= (townList?.size ?: 0) -> townList?.first() ?: "Unknown town"
-            else -> townList?.get(position) ?: "Unknown town"
+            townList.isNullOrEmpty() -> return unknownTown
+            position < 0 || position >= (townList?.size ?: 0) -> townList?.first() ?: unknownTown
+            else -> townList?.get(position) ?: unknownTown
         }
     }
 
@@ -183,9 +184,9 @@ class MainActivity : BaseActivityAbs() {
 
     private fun parseSaved(savedInstanceState: Bundle?) {
         savedInstanceState?.let {
-            if (it.containsKey(SAVED_REQUEST_VALUES)) {
-                val requestValues = it.get(SAVED_REQUEST_VALUES) as RequestModel
-                it.remove(SAVED_REQUEST_VALUES)
+            if (it.containsKey(Constants.SAVED_REQUEST_VALUES)) {
+                val requestValues = it.get(Constants.SAVED_REQUEST_VALUES) as RequestModel
+                it.remove(Constants.SAVED_REQUEST_VALUES)
                 getTownBySelectedPosition(getTownPositionByValue(requestValues.town))
                 humiditySwitch?.isChecked = requestValues.isShowHumidity
                 windSpeedSwitch?.isChecked = requestValues.isShowWindSpeed
