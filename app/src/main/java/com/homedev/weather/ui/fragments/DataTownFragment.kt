@@ -1,27 +1,32 @@
-package com.homedev.weather.ui
+package com.homedev.weather.ui.fragments
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.view.MenuItem
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import butterknife.BindView
 import com.homedev.weather.R
 import com.homedev.weather.core.Constants
-import com.homedev.weather.core.Constants.SAVED_REQUEST_VALUES
+import com.homedev.weather.core.IObserver
+import com.homedev.weather.core.Publisher
 import com.homedev.weather.core.model.RequestModel
+import com.homedev.weather.utils.ViewsUtil
 
 /**
- * Created by Alexandr Zheleznyakov on 2019-09-23.
+ * Created by Alexandr Zheleznyakov on 2019-10-07.
  */
-class ResultRequestActivity : BaseActivityAbs() {
+class DataTownFragment: BaseFragmentAbs(), IObserver {
+
     companion object {
-        fun show(context: Context, requestModel: RequestModel) {
-            val intent = Intent(context, ResultRequestActivity::class.java)
-            intent.putExtra(Constants.INTENT_REQUEST_MODEL, requestModel)
-            context.startActivity(intent)
+        fun create(requestModel: RequestModel): Fragment {
+            val fragment = DataTownFragment()
+            val args = Bundle()
+            args.putSerializable(Constants.INTENT_REQUEST_MODEL, requestModel)
+            fragment.arguments = args
+
+            return fragment
         }
     }
 
@@ -46,49 +51,55 @@ class ResultRequestActivity : BaseActivityAbs() {
     lateinit var pressureView: View
     private var pressureTitleView: TextView? = null
     private var pressureValueView: TextView? = null
+    @BindView(R.id.plateView)
+    lateinit var plateView: View
 
     private var requestModel: RequestModel? = null
 
-
-    /** override **/
-
-
-    override fun getLayout(): Int {
-        return R.layout.result_request_activity
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.result_request_fragment, container, false)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        initView()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         parseIntent()
+        initView()
         parseSaved(savedInstanceState)
 
         if (isValidRequest()) {
             fillViews()
+            enabledPlateView(true)
         } else {
-            finish()
+            enabledPlateView(false)
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         requestModel?.let {
-            outState.putSerializable(SAVED_REQUEST_VALUES, requestModel)
+            outState.putSerializable(Constants.SAVED_REQUEST_VALUES, requestModel)
         }
 
         super.onSaveInstanceState(outState)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            android.R.id.home -> {
-                onBackPressed()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
+    override fun onStart() {
+        super.onStart()
+        Publisher.instance.subscribe(this)
     }
 
+    override fun onStop() {
+        super.onStop()
+        Publisher.instance.unsubscribe(this)
+    }
+
+    override fun updateData(model: RequestModel) {
+        requestModel = model
+        fillViews()
+        enabledPlateView(true)
+    }
 
     /** private **/
 
@@ -105,24 +116,23 @@ class ResultRequestActivity : BaseActivityAbs() {
 
         pressureTitleView = pressureView.findViewById(R.id.title)
         pressureValueView = pressureView.findViewById(R.id.value)
-
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
     }
 
     private fun parseIntent() {
-        if (intent.hasExtra(Constants.INTENT_REQUEST_MODEL)) {
-            requestModel =
-                intent.getSerializableExtra(Constants.INTENT_REQUEST_MODEL) as RequestModel
-            intent.removeExtra(Constants.INTENT_REQUEST_MODEL)
+        arguments?.let {
+            if (it.containsKey(Constants.INTENT_REQUEST_MODEL)) {
+                requestModel =
+                    it.getSerializable(Constants.INTENT_REQUEST_MODEL) as RequestModel
+                it.remove(Constants.INTENT_REQUEST_MODEL)
+            }
         }
     }
 
     private fun parseSaved(savedInstanceState: Bundle?) {
         savedInstanceState?.let {
-            if (it.containsKey(SAVED_REQUEST_VALUES)) {
-                requestModel = it.get(SAVED_REQUEST_VALUES) as RequestModel
-                it.remove(SAVED_REQUEST_VALUES)
+            if (it.containsKey(Constants.SAVED_REQUEST_VALUES)) {
+                requestModel = it.get(Constants.SAVED_REQUEST_VALUES) as RequestModel
+                it.remove(Constants.SAVED_REQUEST_VALUES)
             }
         }
     }
@@ -133,30 +143,40 @@ class ResultRequestActivity : BaseActivityAbs() {
 
     private fun fillViews() {
         requestModel?.let {
-            title = it.town
             townTitleView?.setText(R.string.temperature)
             townValueView?.setText(R.string.temperature_value)
 
             if (it.isShowHumidity) {
                 humidityTitleView?.setText(R.string.humidity)
                 humidityValueView?.setText(R.string.humidity_value)
+                ViewsUtil.showViews(humidityView)
             } else {
-                rootView.removeView(humidityView)
+                ViewsUtil.goneViews(humidityView)
             }
 
             if (it.isShowWindSpeed) {
                 windSpeedTitleView?.setText(R.string.wind_speed)
                 windSpeedValueView?.setText(R.string.wind_speed_value)
+                ViewsUtil.showViews(winSpeedView)
             } else {
-                rootView.removeView(winSpeedView)
+                ViewsUtil.goneViews(winSpeedView)
             }
 
             if (it.isShowPressure) {
                 pressureTitleView?.setText(R.string.pressure)
                 pressureValueView?.setText(R.string.pressure_value)
+                ViewsUtil.showViews(pressureView)
             } else {
-                rootView.removeView(pressureView)
+                ViewsUtil.goneViews(pressureView)
             }
+        }
+    }
+
+    private fun enabledPlateView(enable: Boolean) {
+        if (enable) {
+            plateView.visibility = View.VISIBLE
+        } else {
+            plateView.visibility = View.GONE
         }
     }
 }

@@ -6,4 +6,5 @@ package com.homedev.weather.core
 object Constants {
     const val INTENT_REQUEST_MODEL = "com.homedev.weather.intent_request_model"
     const val SAVED_REQUEST_VALUES = "com.homedev.weather.saved_request_values"
+    const val SAVED_TOWN_POSITION = "com.homedev.weather.saved_town_position"
 }

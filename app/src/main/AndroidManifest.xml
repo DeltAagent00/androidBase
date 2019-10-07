@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.homedev.weather.ui.MainActivity"
+        <activity android:name="com.homedev.weather.ui.activities.MainActivity"
             android:screenOrientation="sensor"
             android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme"
@@ -20,9 +20,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.ResultRequestActivity"
+        <activity android:name=".ui.activities.ResultRequestActivity"
             android:screenOrientation="sensor"
-            android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme"
             />
     </application>
