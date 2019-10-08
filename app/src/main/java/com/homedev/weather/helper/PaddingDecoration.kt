@@ -1,4 +1,4 @@
-package com.homedev.weather.utils
+package com.homedev.weather.helper
 
 import android.graphics.Rect
 import android.view.View

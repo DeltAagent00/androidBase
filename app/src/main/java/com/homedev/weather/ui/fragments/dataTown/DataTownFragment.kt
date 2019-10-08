@@ -15,7 +15,7 @@ import com.homedev.weather.core.Publisher
 import com.homedev.weather.core.model.RequestModel
 import com.homedev.weather.core.model.WeatherViewModel
 import com.homedev.weather.ui.fragments.BaseFragmentAbs
-import com.homedev.weather.utils.PaddingDecoration
+import com.homedev.weather.helper.PaddingDecoration
 import kotlinx.android.synthetic.main.result_request_fragment.*
 import kotlin.collections.ArrayList
 import kotlin.random.Random
