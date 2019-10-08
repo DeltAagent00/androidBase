@@ -3,7 +3,7 @@ package com.homedev.weather.ui.activities
 import android.content.res.Configuration
 import android.os.Bundle
 import com.homedev.weather.R
-import com.homedev.weather.ui.fragments.DataTownFragment
+import com.homedev.weather.ui.fragments.dataTown.DataTownFragment
 import com.homedev.weather.ui.fragments.SelectTownFragment
 import com.homedev.weather.utils.ViewsUtil
 

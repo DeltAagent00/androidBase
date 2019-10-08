@@ -1,24 +1,29 @@
-package com.homedev.weather.ui.fragments
+package com.homedev.weather.ui.fragments.dataTown
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import com.homedev.weather.R
 import com.homedev.weather.core.Constants
 import com.homedev.weather.core.IObserver
 import com.homedev.weather.core.Publisher
 import com.homedev.weather.core.model.RequestModel
-import com.homedev.weather.utils.ViewsUtil
+import com.homedev.weather.core.model.WeatherViewModel
+import com.homedev.weather.ui.fragments.BaseFragmentAbs
+import com.homedev.weather.utils.PaddingDecoration
+import kotlinx.android.synthetic.main.result_request_fragment.*
+import kotlin.collections.ArrayList
+import kotlin.random.Random
 
 /**
  * Created by Alexandr Zheleznyakov on 2019-10-07.
  */
-class DataTownFragment: BaseFragmentAbs(), IObserver {
-
+class DataTownFragment : BaseFragmentAbs(), IObserver {
     companion object {
         fun create(requestModel: RequestModel): Fragment {
             val fragment = DataTownFragment()
@@ -32,29 +37,9 @@ class DataTownFragment: BaseFragmentAbs(), IObserver {
 
     @BindView(R.id.root)
     lateinit var rootView: ViewGroup
-    @BindView(R.id.town)
-    lateinit var townView: View
-    private var townTitleView: TextView? = null
-    private var townValueView: TextView? = null
-
-    @BindView(R.id.humidity)
-    lateinit var humidityView: View
-    private var humidityTitleView: TextView? = null
-    private var humidityValueView: TextView? = null
-
-    @BindView(R.id.wind_speed)
-    lateinit var winSpeedView: View
-    private var windSpeedTitleView: TextView? = null
-    private var windSpeedValueView: TextView? = null
-
-    @BindView(R.id.pressure)
-    lateinit var pressureView: View
-    private var pressureTitleView: TextView? = null
-    private var pressureValueView: TextView? = null
-    @BindView(R.id.plateView)
-    lateinit var plateView: View
 
     private var requestModel: RequestModel? = null
+    private var recyclerViewAdapter: DataTownAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,13 +52,13 @@ class DataTownFragment: BaseFragmentAbs(), IObserver {
         super.onViewCreated(view, savedInstanceState)
         parseIntent()
         initView()
+        initRecyclerView()
         parseSaved(savedInstanceState)
 
         if (isValidRequest()) {
             fillViews()
-            enabledPlateView(true)
         } else {
-            enabledPlateView(false)
+            recyclerViewAdapter?.reset()
         }
     }
 
@@ -98,24 +83,35 @@ class DataTownFragment: BaseFragmentAbs(), IObserver {
     override fun updateData(model: RequestModel) {
         requestModel = model
         fillViews()
-        enabledPlateView(true)
     }
 
     /** private **/
 
 
     private fun initView() {
-        townTitleView = townView.findViewById(R.id.title)
-        townValueView = townView.findViewById(R.id.value)
+    }
 
-        humidityTitleView = humidityView.findViewById(R.id.title)
-        humidityValueView = humidityView.findViewById(R.id.value)
+    private fun initRecyclerView() {
+        val recyclerViewLayoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
 
-        windSpeedTitleView = winSpeedView.findViewById(R.id.title)
-        windSpeedValueView = winSpeedView.findViewById(R.id.value)
+        if (recyclerViewAdapter == null) {
+            recyclerViewAdapter = DataTownAdapter()
+        }
 
-        pressureTitleView = pressureView.findViewById(R.id.title)
-        pressureValueView = pressureView.findViewById(R.id.value)
+        recyclerView.isSaveEnabled = true
+        recyclerView.layoutManager = recyclerViewLayoutManager
+        recyclerView.adapter = recyclerViewAdapter
+
+        recyclerView.addItemDecoration(object : PaddingDecoration(
+            0,
+            requireContext().resources.getDimension(R.dimen.recycler_item_decorator_padding_top).toInt(),
+            0,
+            0
+        ) {
+            override fun childAtPositionNeedsPadding(position: Int, count: Int): Boolean {
+                return position == 0
+            }
+        })
     }
 
     private fun parseIntent() {
@@ -143,40 +139,27 @@ class DataTownFragment: BaseFragmentAbs(), IObserver {
 
     private fun fillViews() {
         requestModel?.let {
-            townTitleView?.setText(R.string.temperature)
-            townValueView?.setText(R.string.temperature_value)
-
-            if (it.isShowHumidity) {
-                humidityTitleView?.setText(R.string.humidity)
-                humidityValueView?.setText(R.string.humidity_value)
-                ViewsUtil.showViews(humidityView)
-            } else {
-                ViewsUtil.goneViews(humidityView)
-            }
-
-            if (it.isShowWindSpeed) {
-                windSpeedTitleView?.setText(R.string.wind_speed)
-                windSpeedValueView?.setText(R.string.wind_speed_value)
-                ViewsUtil.showViews(winSpeedView)
-            } else {
-                ViewsUtil.goneViews(winSpeedView)
-            }
-
-            if (it.isShowPressure) {
-                pressureTitleView?.setText(R.string.pressure)
-                pressureValueView?.setText(R.string.pressure_value)
-                ViewsUtil.showViews(pressureView)
-            } else {
-                ViewsUtil.goneViews(pressureView)
-            }
+            activity?.title = it.town
+            recyclerViewAdapter?.setData(generateData(), it)
         }
     }
 
-    private fun enabledPlateView(enable: Boolean) {
-        if (enable) {
-            plateView.visibility = View.VISIBLE
-        } else {
-            plateView.visibility = View.GONE
+    private fun generateData(): Collection<WeatherViewModel> {
+        val listData: ArrayList<WeatherViewModel> = ArrayList()
+
+        for (i in 0..10) {
+            listData.add(generateModel())
         }
+
+        return listData
+    }
+
+    private fun generateModel(): WeatherViewModel {
+        return WeatherViewModel(
+            Random.nextInt(17, 40),
+            Random.nextInt(0, 100),
+            Random.nextInt(0, 50),
+            Random.nextInt(690, 800)
+        )
     }
 }

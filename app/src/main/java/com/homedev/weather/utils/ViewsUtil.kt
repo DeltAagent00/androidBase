@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.Configuration
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
 
 /**
  * Created by Alexandr Zheleznyakov on 2019-09-24.
@@ -46,6 +47,12 @@ object ViewsUtil {
             if (v?.visibility != View.VISIBLE) {
                 v?.visibility = View.VISIBLE
             }
+        }
+    }
+
+    fun clearTextViews(vararg textViews: TextView?) {
+        for (tv in textViews) {
+            tv?.text = null
         }
     }
 }

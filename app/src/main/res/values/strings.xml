@@ -17,10 +17,14 @@
 
     <string name="error_can_not_be_empty">Can\'t be empty</string>
 
-    <string name="temperature_value">22 \u2109</string>
-    <string name="humidity_value">33%</string>
-    <string name="wind_speed_value">10 m/s</string>
-    <string name="pressure_value">755 mmHg</string>
+    <string name="temperature_value">%d \u2109</string>
+    <string name="humidity_value">%d%%</string>
+    <string name="wind_speed_value">%d m/s</string>
+    <string name="pressure_value">%d mmHg</string>
+
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="day_after_tomorrow">Day after tomorrow</string>
 
     <string-array name="town_list">
         <item>Krasnodar</item>
