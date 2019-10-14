@@ -31,4 +31,8 @@
         <item>Moscow</item>
         <item>Omsk</item>
     </string-array>
+
+    <string name="about_text">Developed by HomeDev!</string>
+    <string name="confirm_text">Show weather for the city %s?</string>
+    <string name="yes">Yes</string>
 </resources>

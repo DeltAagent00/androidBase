@@ -28,4 +28,8 @@
         <item>Москва</item>
         <item>Омск</item>
     </string-array>
+
+    <string name="about_text">Разработано студией HomeDev!</string>
+    <string name="confirm_text">Показать погоду для города %s?</string>
+    <string name="yes">Да</string>
 </resources>

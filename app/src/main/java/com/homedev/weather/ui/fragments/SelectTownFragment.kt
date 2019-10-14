@@ -2,14 +2,13 @@ package com.homedev.weather.ui.fragments
 
 import android.content.res.Configuration
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ArrayAdapter
 import android.widget.CompoundButton
 import android.widget.ListView
 import android.widget.TextView
 import butterknife.BindView
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.homedev.weather.R
 import com.homedev.weather.core.Constants
@@ -50,6 +49,10 @@ class SelectTownFragment: BaseFragmentAbs() {
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -86,6 +89,8 @@ class SelectTownFragment: BaseFragmentAbs() {
 
         super.onSaveInstanceState(outState)
     }
+
+
 
     private fun initViews() {
         humidityTitle = humidityView.findViewById(R.id.title)
@@ -129,8 +134,11 @@ class SelectTownFragment: BaseFragmentAbs() {
             townListView.setItemChecked(currentPosition, true)
             Publisher.instance.notify(createModelRequest())
         } else {
-            context?.let {
-                ResultRequestActivity.show(it, createModelRequest())
+            view?.let {
+                val confirmText = getString(R.string.confirm_text, getTownBySelectedPosition())
+                Snackbar.make(it, confirmText, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.yes) { showScreenResultRequest() }
+                    .show()
             }
         }
     }
@@ -160,6 +168,12 @@ class SelectTownFragment: BaseFragmentAbs() {
                 windSpeedSwitch?.isChecked = requestValues.isShowWindSpeed
                 pressureSwitch?.isChecked = requestValues.isShowPressure
             }
+        }
+    }
+
+    private fun showScreenResultRequest() {
+        context?.let { itContext ->
+            ResultRequestActivity.show(itContext, createModelRequest())
         }
     }
 }
