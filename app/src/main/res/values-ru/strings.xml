@@ -14,10 +14,10 @@
 
     <string name="error_can_not_be_empty">Не может быть пустым</string>
 
-    <string name="temperature_value">%d \u2103</string>
+    <string name="temperature_value">%.1f \u2103</string>
     <string name="humidity_value">%d%%</string>
-    <string name="wind_speed_value">%d м/с</string>
-    <string name="pressure_value">%d мм рт. ст.</string>
+    <string name="wind_speed_value">%.1f м/с</string>
+    <string name="pressure_value">%.1f мм рт. ст.</string>
 
     <string name="today">Сегодня</string>
     <string name="tomorrow">Завтра</string>
@@ -32,4 +32,6 @@
     <string name="about_text">Разработано студией HomeDev!</string>
     <string name="confirm_text">Показать погоду для города %s?</string>
     <string name="yes">Да</string>
+
+    <string name="place_not_found">Данные по городу не найдены</string>
 </resources>

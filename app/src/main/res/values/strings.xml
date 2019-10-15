@@ -17,10 +17,10 @@
 
     <string name="error_can_not_be_empty">Can\'t be empty</string>
 
-    <string name="temperature_value">%d \u2109</string>
+    <string name="temperature_value">%.1f \u2103</string>
     <string name="humidity_value">%d%%</string>
-    <string name="wind_speed_value">%d m/s</string>
-    <string name="pressure_value">%d mmHg</string>
+    <string name="wind_speed_value">%.1f m/s</string>
+    <string name="pressure_value">%.1f mmHg</string>
 
     <string name="today">Today</string>
     <string name="tomorrow">Tomorrow</string>
@@ -35,4 +35,6 @@
     <string name="about_text">Developed by HomeDev!</string>
     <string name="confirm_text">Show weather for the city %s?</string>
     <string name="yes">Yes</string>
+
+    <string name="place_not_found">Data not found</string>
 </resources>

@@ -7,7 +7,7 @@ import android.view.MenuItem
 import com.homedev.weather.R
 import com.homedev.weather.core.Constants
 import com.homedev.weather.core.model.RequestModel
-import com.homedev.weather.ui.fragments.dataTown.DataTownFragment
+import com.homedev.weather.ui.fragments.dataTown.DataTownFragmentImpl
 
 /**
  * Created by Alexandr Zheleznyakov on 2019-09-23.
@@ -58,7 +58,7 @@ class ResultRequestActivity : BaseActivityAbs() {
 
         requestModel?.let {
             title = it.town
-            val fragment = DataTownFragment.create(it)
+            val fragment = DataTownFragmentImpl.create(it)
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.containerView, fragment)

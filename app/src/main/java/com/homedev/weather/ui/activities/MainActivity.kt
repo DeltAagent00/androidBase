@@ -3,13 +3,11 @@ package com.homedev.weather.ui.activities
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
-import com.google.android.material.snackbar.Snackbar
 import com.homedev.weather.R
 import com.homedev.weather.helper.OnOneClickListener
-import com.homedev.weather.ui.fragments.dataTown.DataTownFragment
+import com.homedev.weather.ui.fragments.dataTown.DataTownFragmentImpl
 import com.homedev.weather.ui.fragments.SelectTownFragment
 import com.homedev.weather.utils.ViewsUtil
 
@@ -71,7 +69,7 @@ class MainActivity : BaseActivityAbs() {
 
 
         if (ViewsUtil.isLandscape(baseContext)) {
-            val fragmentData = DataTownFragment()
+            val fragmentData = DataTownFragmentImpl()
             fragmentTransaction
                 .replace(R.id.containerViewLeft, fragment)
                 .replace(R.id.containerViewRight, fragmentData)

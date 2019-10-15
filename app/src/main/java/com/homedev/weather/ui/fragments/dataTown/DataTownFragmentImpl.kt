@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,17 +17,16 @@ import com.homedev.weather.core.model.RequestModel
 import com.homedev.weather.core.model.WeatherViewModel
 import com.homedev.weather.ui.fragments.BaseFragmentAbs
 import com.homedev.weather.helper.PaddingDecoration
+import com.homedev.weather.utils.ViewsUtil
 import kotlinx.android.synthetic.main.result_request_fragment.*
-import kotlin.collections.ArrayList
-import kotlin.random.Random
 
 /**
  * Created by Alexandr Zheleznyakov on 2019-10-07.
  */
-class DataTownFragment : BaseFragmentAbs(), IObserver {
+class DataTownFragmentImpl : BaseFragmentAbs(), IDataTownView, IObserver {
     companion object {
         fun create(requestModel: RequestModel): Fragment {
-            val fragment = DataTownFragment()
+            val fragment = DataTownFragmentImpl()
             val args = Bundle()
             args.putSerializable(Constants.INTENT_REQUEST_MODEL, requestModel)
             fragment.arguments = args
@@ -40,6 +40,12 @@ class DataTownFragment : BaseFragmentAbs(), IObserver {
 
     private var requestModel: RequestModel? = null
     private var recyclerViewAdapter: DataTownAdapter? = null
+
+    private val presenter: IDataTownPresenter
+
+    init {
+        presenter = DataTownPresenterImpl(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,7 +64,7 @@ class DataTownFragment : BaseFragmentAbs(), IObserver {
         if (isValidRequest()) {
             fillViews()
         } else {
-            recyclerViewAdapter?.reset()
+            resetAdapter()
         }
     }
 
@@ -85,10 +91,36 @@ class DataTownFragment : BaseFragmentAbs(), IObserver {
         fillViews()
     }
 
+    override fun resetAdapter() {
+        recyclerViewAdapter?.reset()
+    }
+
+    override fun setDataToAdapter(list: Collection<WeatherViewModel>) {
+        requestModel?.let {
+            recyclerViewAdapter?.setData(list, it)
+        }
+    }
+
+    override fun showError(resString: Int) {
+        context?.let {
+            Toast.makeText(it, resString, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun enabledProgress(enabled: Boolean) {
+        if (enabled) {
+            ViewsUtil.showViews(progressView)
+        } else {
+            ViewsUtil.goneViews(progressView)
+        }
+    }
+
+
     /** private **/
 
 
     private fun initView() {
+        enabledProgress(false)
     }
 
     private fun initRecyclerView() {
@@ -140,26 +172,7 @@ class DataTownFragment : BaseFragmentAbs(), IObserver {
     private fun fillViews() {
         requestModel?.let {
             activity?.title = it.town
-            recyclerViewAdapter?.setData(generateData(), it)
+            presenter.startLoadData(it)
         }
-    }
-
-    private fun generateData(): Collection<WeatherViewModel> {
-        val listData: ArrayList<WeatherViewModel> = ArrayList()
-
-        for (i in 0..10) {
-            listData.add(generateModel())
-        }
-
-        return listData
-    }
-
-    private fun generateModel(): WeatherViewModel {
-        return WeatherViewModel(
-            Random.nextInt(17, 40),
-            Random.nextInt(0, 100),
-            Random.nextInt(0, 50),
-            Random.nextInt(690, 800)
-        )
     }
 }

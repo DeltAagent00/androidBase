@@ -48,7 +48,7 @@ class DataTownAdapter: RecyclerView.Adapter<DataTownAdapterHolder>() {
 
     override fun onBindViewHolder(holder: DataTownAdapterHolder, position: Int) {
         val item = getItemByPosition(position)
-        holder.fill(position, item, requestModel)
+        holder.fill(item, requestModel)
     }
 
     private fun getItemByPosition(position: Int): WeatherViewModel {
@@ -98,28 +98,17 @@ class DataTownAdapterHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
             pressureTitleView, pressureValueView)
     }
 
-    fun fill(position: Int, item: WeatherViewModel, requestModel: RequestModel?) {
+    fun fill(item: WeatherViewModel, requestModel: RequestModel?) {
         reset()
 
-        setTitle(position)
+        titleView.text = item.dateText
         setTemperature(item.temperature)
         setHumidity(item.humidity, requestModel?.isShowHumidity ?: true)
         setWindSpeed(item.windSpeed, requestModel?.isShowWindSpeed ?: true)
         setPressure(item.pressure, requestModel?.isShowPressure ?: true)
     }
 
-    private fun setTitle(position: Int) {
-        val context = titleView.context
-        val title = when(position) {
-            0 -> context.getString(R.string.today)
-            1 -> context.getString(R.string.tomorrow)
-            2 -> context.getString(R.string.day_after_tomorrow)
-            else -> context.resources.getQuantityString(R.plurals.after_days, position, position)
-        }
-        titleView.text = title
-    }
-
-    private fun setTemperature(temperatureValue: Int) {
+    private fun setTemperature(temperatureValue: Double) {
         temperatureTitleView.setText(R.string.temperature)
         temperatureValueView.text = temperatureValueView.context.getString(R.string.temperature_value, temperatureValue)
     }
@@ -134,7 +123,7 @@ class DataTownAdapterHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         }
     }
 
-    private fun setWindSpeed(windSpeedValue: Int, isShow: Boolean) {
+    private fun setWindSpeed(windSpeedValue: Double, isShow: Boolean) {
         if (isShow) {
             windSpeedTitleView.setText(R.string.wind_speed)
             windSpeedValueView.text = windSpeedValueView.context.getString(R.string.wind_speed_value, windSpeedValue)
@@ -144,7 +133,7 @@ class DataTownAdapterHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         }
     }
 
-    private fun setPressure(pressureValue: Int, isShow: Boolean) {
+    private fun setPressure(pressureValue: Double, isShow: Boolean) {
         if (isShow) {
             pressureTitleView.setText(R.string.pressure)
             pressureValueView.text = pressureValueView.context.getString(R.string.pressure_value, pressureValue)
