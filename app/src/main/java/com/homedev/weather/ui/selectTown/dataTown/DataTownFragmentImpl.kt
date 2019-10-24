@@ -1,4 +1,4 @@
-package com.homedev.weather.ui.fragments.dataTown
+package com.homedev.weather.ui.selectTown.dataTown
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,15 +15,18 @@ import com.homedev.weather.core.IObserver
 import com.homedev.weather.core.Publisher
 import com.homedev.weather.core.model.RequestModel
 import com.homedev.weather.core.model.WeatherViewModel
+import com.homedev.weather.core.settings.SharedPreferencesModelImpl
 import com.homedev.weather.ui.fragments.BaseFragmentAbs
 import com.homedev.weather.helper.PaddingDecoration
+import com.homedev.weather.settings.ISharedPreferencesModel
 import com.homedev.weather.utils.ViewsUtil
 import kotlinx.android.synthetic.main.result_request_fragment.*
 
 /**
  * Created by Alexandr Zheleznyakov on 2019-10-07.
  */
-class DataTownFragmentImpl : BaseFragmentAbs(), IDataTownView, IObserver {
+class DataTownFragmentImpl : BaseFragmentAbs(),
+    IDataTownView, IObserver {
     companion object {
         fun create(requestModel: RequestModel): Fragment {
             val fragment = DataTownFragmentImpl()
@@ -41,6 +44,7 @@ class DataTownFragmentImpl : BaseFragmentAbs(), IDataTownView, IObserver {
     private var requestModel: RequestModel? = null
     private var recyclerViewAdapter: DataTownAdapter? = null
 
+    private var sharedPreferencesModel: ISharedPreferencesModel? = null
     private val presenter: IDataTownPresenter
 
     init {
@@ -120,6 +124,14 @@ class DataTownFragmentImpl : BaseFragmentAbs(), IDataTownView, IObserver {
 
 
     private fun initView() {
+        context?.let {
+            sharedPreferencesModel = SharedPreferencesModelImpl(it)
+            requestModel?.let { itModel ->
+                itModel.isShowHumidity = sharedPreferencesModel?.getHumidity() ?: false
+                itModel.isShowWindSpeed = sharedPreferencesModel?.getWindSpeed() ?: false
+                itModel.isShowPressure = sharedPreferencesModel?.getPressure() ?: false
+            }
+        }
         enabledProgress(false)
     }
 

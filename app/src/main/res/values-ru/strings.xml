@@ -7,6 +7,17 @@
     <string name="show_pressure">Показать давление</string>
     <string name="button_text">Отправить запрос</string>
 
+    <string name="nav_header_title">Имя</string>
+    <string name="nav_header_subtitle">Фамилия</string>
+    <string name="nav_header_desc">Заголовок</string>
+    <string name="action_settings">Настройки</string>
+
+    <string name="menu_home">Главная</string>
+    <string name="menu_list_city">Города</string>
+    <string name="menu_about">О нас</string>
+    <string name="menu_send">Отправить сообщение</string>
+    <string name="communicate">Обратная связь</string>
+
     <string name="temperature">Температура</string>
     <string name="humidity">Влажность</string>
     <string name="wind_speed">Скорость ветра</string>

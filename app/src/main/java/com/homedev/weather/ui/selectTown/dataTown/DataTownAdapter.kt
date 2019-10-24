@@ -1,4 +1,4 @@
-package com.homedev.weather.ui.fragments.dataTown
+package com.homedev.weather.ui.selectTown.dataTown
 
 import android.view.LayoutInflater
 import android.view.View

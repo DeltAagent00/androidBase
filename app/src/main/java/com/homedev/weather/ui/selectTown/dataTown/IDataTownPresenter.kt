@@ -1,4 +1,4 @@
-package com.homedev.weather.ui.fragments.dataTown
+package com.homedev.weather.ui.selectTown.dataTown
 
 import com.homedev.weather.core.model.RequestModel
 

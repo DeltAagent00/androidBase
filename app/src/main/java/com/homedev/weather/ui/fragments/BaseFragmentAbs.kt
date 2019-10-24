@@ -2,6 +2,7 @@ package com.homedev.weather.ui.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import butterknife.ButterKnife
 import butterknife.Unbinder
@@ -10,7 +11,7 @@ import com.homedev.weather.utils.LoggerUtils
 /**
  * Created by Alexandr Zheleznyakov on 2019-10-07.
  */
-open class BaseFragmentAbs: Fragment() {
+abstract class BaseFragmentAbs: Fragment() {
     private var unbinder: Unbinder? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,5 +62,11 @@ open class BaseFragmentAbs: Fragment() {
 
         val msg = "onStop Fragment"
         LoggerUtils.info(this, msg)
+    }
+
+    fun setTitle(@StringRes title: Int) {
+        activity?.actionBar?.apply {
+            setTitle(title)
+        }
     }
 }

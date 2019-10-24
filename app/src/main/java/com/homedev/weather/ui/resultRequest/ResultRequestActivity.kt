@@ -1,4 +1,4 @@
-package com.homedev.weather.ui.activities
+package com.homedev.weather.ui.resultRequest
 
 import android.content.Context
 import android.content.Intent
@@ -7,7 +7,8 @@ import android.view.MenuItem
 import com.homedev.weather.R
 import com.homedev.weather.core.Constants
 import com.homedev.weather.core.model.RequestModel
-import com.homedev.weather.ui.fragments.dataTown.DataTownFragmentImpl
+import com.homedev.weather.ui.activities.BaseActivityAbs
+import com.homedev.weather.ui.selectTown.dataTown.DataTownFragmentImpl
 
 /**
  * Created by Alexandr Zheleznyakov on 2019-09-23.

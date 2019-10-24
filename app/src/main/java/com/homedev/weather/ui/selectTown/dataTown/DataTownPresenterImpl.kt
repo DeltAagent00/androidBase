@@ -1,4 +1,4 @@
-package com.homedev.weather.ui.fragments.dataTown
+package com.homedev.weather.ui.selectTown.dataTown
 
 import android.os.Handler
 import com.homedev.weather.R
@@ -10,7 +10,8 @@ import com.homedev.weather.core.model.WeatherViewModel
 /**
  * Created by Alexandr Zheleznyakov on 2019-10-15.
  */
-class DataTownPresenterImpl(private val view: IDataTownView): IDataTownPresenter {
+class DataTownPresenterImpl(private val view: IDataTownView):
+    IDataTownPresenter {
     private var requestModel: RequestModel? = null
     private val handler = Handler()
 

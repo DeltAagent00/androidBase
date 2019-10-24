@@ -7,7 +7,7 @@ import java.io.Serializable
  */
 data class RequestModel(
     val town: String,           // город
-    val isShowHumidity: Boolean,  // влажность
-    val isShowWindSpeed: Boolean, // скорость ветра
-    val isShowPressure: Boolean   // давление
+    var isShowHumidity: Boolean = false,  // влажность
+    var isShowWindSpeed: Boolean = false, // скорость ветра
+    var isShowPressure: Boolean = false   // давление
 ) : Serializable
