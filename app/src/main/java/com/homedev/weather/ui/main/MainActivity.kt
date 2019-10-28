@@ -87,6 +87,7 @@ class MainActivity : BaseActivityAbs() {
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_home,
+                R.id.nav_sensors,
                 R.id.nav_send,
                 R.id.nav_about
             ), drawerLayout
