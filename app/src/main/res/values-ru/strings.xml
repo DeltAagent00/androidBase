@@ -14,8 +14,8 @@
 
     <string name="menu_home">Главная</string>
     <string name="menu_list_city">Города</string>
-    <string name="menu_about">О нас</string>
-    <string name="menu_send">Отправить сообщение</string>
+    <string name="menu_about">О разработчике</string>
+    <string name="menu_send">Форма обратной связи</string>
     <string name="communicate">Обратная связь</string>
 
     <string name="temperature">Температура</string>
@@ -45,4 +45,8 @@
     <string name="yes">Да</string>
 
     <string name="place_not_found">Данные по городу не найдены</string>
+
+    <string name="message">Сообщение</string>
+    <string name="btn_send">Отправить</string>
+    <string name="message_success_send">Сообщение отправлено</string>
 </resources>

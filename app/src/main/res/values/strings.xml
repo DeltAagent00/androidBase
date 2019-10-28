@@ -13,7 +13,7 @@
     <string name="menu_home">Home</string>
     <string name="menu_list_city">Cities</string>
     <string name="menu_about">About</string>
-    <string name="menu_send">Send</string>
+    <string name="menu_send">Send feedback</string>
     <string name="communicate">Communicate</string>
 
     <string name="title">Weather</string>
@@ -50,4 +50,8 @@
     <string name="yes">Yes</string>
 
     <string name="place_not_found">Data not found</string>
+
+    <string name="message">Message</string>
+    <string name="btn_send">Send</string>
+    <string name="message_success_send">Message send</string>
 </resources>
