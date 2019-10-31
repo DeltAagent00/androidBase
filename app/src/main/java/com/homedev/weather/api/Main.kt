@@ -1,5 +1,7 @@
 package com.homedev.weather.api
 
+import java.io.Serializable
+
 data class Main(
     val grnd_level: Double,
     val humidity: Int,
@@ -9,4 +11,4 @@ data class Main(
     val temp_kf: Double,
     val temp_max: Double,
     val temp_min: Double
-)
+): Serializable

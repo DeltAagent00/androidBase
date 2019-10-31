@@ -7,4 +7,6 @@ import com.homedev.weather.core.model.RequestModel
  */
 interface IDataTownPresenter {
     fun startLoadData(requestModel: RequestModel)
+    fun onStart()
+    fun onStop()
 }

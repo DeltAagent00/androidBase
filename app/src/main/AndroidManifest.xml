@@ -30,6 +30,10 @@
             android:screenOrientation="sensor"
             android:theme="@style/AppTheme"
             />
+
+        <service android:name=".services.WeatherService"
+            android:exported="false"
+            />
     </application>
 
 </manifest>

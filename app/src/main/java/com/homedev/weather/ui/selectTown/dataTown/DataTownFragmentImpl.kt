@@ -45,11 +45,7 @@ class DataTownFragmentImpl : BaseFragmentAbs(),
     private var recyclerViewAdapter: DataTownAdapter? = null
 
     private var sharedPreferencesModel: ISharedPreferencesModel? = null
-    private val presenter: IDataTownPresenter
-
-    init {
-        presenter = DataTownPresenterImpl(this)
-    }
+    private lateinit var presenter: IDataTownPresenter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,6 +56,9 @@ class DataTownFragmentImpl : BaseFragmentAbs(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        presenter = DataTownPresenterImpl(requireContext(), this)
+
         parseIntent()
         initView()
         initRecyclerView()
@@ -83,11 +82,13 @@ class DataTownFragmentImpl : BaseFragmentAbs(),
     override fun onStart() {
         super.onStart()
         Publisher.instance.subscribe(this)
+        presenter.onStart()
     }
 
     override fun onStop() {
         super.onStop()
         Publisher.instance.unsubscribe(this)
+        presenter.onStop()
     }
 
     override fun updateData(model: RequestModel) {
