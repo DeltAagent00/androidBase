@@ -5,6 +5,7 @@ package com.homedev.weather.settings
  */
 interface ISharedPreferencesModel {
     companion object {
+        const val LastCity = "lastCity"
         const val Humidity = "humidity"
         const val WindSpeed = "windSpeed"
         const val Pressure = "pressure"
@@ -12,11 +13,12 @@ interface ISharedPreferencesModel {
 
     fun clear()
 
+    fun setLastCity(city: String)
+    fun getLastCity(): String?
     fun setHumidity(value: Boolean)
     fun getHumidity(): Boolean
     fun setWindSpeed(value: Boolean)
     fun getWindSpeed(): Boolean
     fun setPressure(value: Boolean)
     fun getPressure(): Boolean
-
 }
