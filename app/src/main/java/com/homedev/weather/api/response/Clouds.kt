@@ -1,4 +1,4 @@
-package com.homedev.weather.api
+package com.homedev.weather.api.response
 
 import java.io.Serializable
 

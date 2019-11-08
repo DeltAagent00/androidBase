@@ -4,20 +4,16 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.os.Handler
 import com.homedev.weather.R
-import com.homedev.weather.api.Item
-import com.homedev.weather.api.WeatherResponse
+import com.homedev.weather.api.response.Item
+import com.homedev.weather.api.response.WeatherResponse
 import com.homedev.weather.core.Constants
 import com.homedev.weather.core.model.RequestModel
-import com.homedev.weather.core.model.WeatherDataLoader
 import com.homedev.weather.core.model.WeatherViewModel
 import com.homedev.weather.core.settings.SharedPreferencesModelImpl
 import com.homedev.weather.services.ResponseCode
 import com.homedev.weather.services.WeatherService
 import com.homedev.weather.settings.ISharedPreferencesModel
-import com.homedev.weather.utils.LoggerUtils
-import kotlin.math.E
 
 /**
  * Created by Alexandr Zheleznyakov on 2019-10-15.
@@ -97,7 +93,8 @@ class DataTownPresenterImpl(private val context: Context,
             item.main.humidity,
             item.wind.speed,
             item.main.pressure,
-            item.dt_txt
+            item.dt_txt,
+            item.weather[0].icon
         )
     }
 }
