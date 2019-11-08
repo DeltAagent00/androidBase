@@ -1,7 +1,7 @@
 package com.homedev.weather.core.model
 
 import com.google.gson.Gson
-import com.homedev.weather.api.WeatherResponse
+import com.homedev.weather.api.response.WeatherResponse
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
