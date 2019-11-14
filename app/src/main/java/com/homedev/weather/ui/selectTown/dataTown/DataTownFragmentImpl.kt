@@ -28,12 +28,14 @@ import kotlinx.android.synthetic.main.result_request_fragment.*
 class DataTownFragmentImpl : BaseFragmentAbs(),
     IDataTownView, IObserver {
     companion object {
-        fun create(requestModel: RequestModel): Fragment {
+        fun create(requestModel: RequestModel?): Fragment {
             val fragment = DataTownFragmentImpl()
-            val args = Bundle()
-            args.putSerializable(Constants.INTENT_REQUEST_MODEL, requestModel)
-            fragment.arguments = args
 
+            requestModel?.let {
+                val args = Bundle()
+                args.putSerializable(Constants.INTENT_REQUEST_MODEL, requestModel)
+                fragment.arguments = args
+            }
             return fragment
         }
     }

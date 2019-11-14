@@ -4,18 +4,16 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.os.Handler
 import com.homedev.weather.R
-import com.homedev.weather.api.Item
-import com.homedev.weather.api.WeatherResponse
+import com.homedev.weather.api.response.Item
+import com.homedev.weather.api.response.WeatherResponse
 import com.homedev.weather.core.Constants
 import com.homedev.weather.core.model.RequestModel
-import com.homedev.weather.core.model.WeatherDataLoader
 import com.homedev.weather.core.model.WeatherViewModel
+import com.homedev.weather.core.settings.SharedPreferencesModelImpl
 import com.homedev.weather.services.ResponseCode
 import com.homedev.weather.services.WeatherService
-import com.homedev.weather.utils.LoggerUtils
-import kotlin.math.E
+import com.homedev.weather.settings.ISharedPreferencesModel
 
 /**
  * Created by Alexandr Zheleznyakov on 2019-10-15.
@@ -23,11 +21,15 @@ import kotlin.math.E
 class DataTownPresenterImpl(private val context: Context,
                             private val view: IDataTownView):
     IDataTownPresenter {
+
+    private val sharedPreferencesModel: ISharedPreferencesModel
     private var requestModel: RequestModel? = null
     private val receiver: BroadcastReceiver
     private val filter = IntentFilter(Constants.BROADCAST_RESPONSE_WEATHER)
 
     init {
+        sharedPreferencesModel = SharedPreferencesModelImpl(context)
+
         receiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
                 intent?.let {
@@ -60,6 +62,9 @@ class DataTownPresenterImpl(private val context: Context,
 
     override fun startLoadData(requestModel: RequestModel) {
         this.requestModel = requestModel
+
+        sharedPreferencesModel.setLastCity(requestModel.town)
+
         view.resetAdapter()
         getDataFromServer()
     }
@@ -88,7 +93,8 @@ class DataTownPresenterImpl(private val context: Context,
             item.main.humidity,
             item.wind.speed,
             item.main.pressure,
-            item.dt_txt
+            item.dt_txt,
+            item.weather[0].icon
         )
     }
 }

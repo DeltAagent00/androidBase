@@ -7,4 +7,5 @@ data class WeatherViewModel(val temperature: Double,
                             val humidity: Int,
                             val windSpeed: Double,
                             val pressure: Double,
-                            val dateText: String)
+                            val dateText: String,
+                            val iconId: String? = null)

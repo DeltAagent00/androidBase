@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:alpha=".5"
+    app:cardBackgroundColor="@color/white_50"
     app:cardCornerRadius="8dp"
     app:elevation="6dp">
 
@@ -22,6 +22,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/iconWeatherView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="end"
+            android:scaleType="centerCrop"
+            />
         <include
             android:id="@+id/temperature"
             layout="@layout/text_value_item"
