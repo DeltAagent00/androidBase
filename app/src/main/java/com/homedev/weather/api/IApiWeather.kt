@@ -16,5 +16,10 @@ interface IApiWeather {
 
     @GET("data/2.5/forecast")
     suspend fun getForecastWeather(@Query("q") city: String,
-                                   @Query("units") unit: String): WeatherResponse
+                                   @Query("units") units: String): WeatherResponse
+
+    @GET("data/2.5/forecast")
+    suspend fun getWeatherFromLocation(@Query("lat") lat: Double,
+                                       @Query("lon") lon: Double,
+                                       @Query("units") units: String): WeatherResponse
 }

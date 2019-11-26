@@ -1,5 +1,6 @@
 package com.homedev.weather.api.network.repositories
 
+import android.location.Location
 import com.homedev.weather.api.ApiWeather
 import com.homedev.weather.api.network.Result
 import com.homedev.weather.api.response.WeatherResponse
@@ -17,6 +18,12 @@ class WeatherRepository: BaseRepository() {
     suspend fun getWeatherForecast(town: String): Result<WeatherResponse> {
         return safeApiCall(call = {
             apiWeather.api.getForecastWeather(town, "metric")
+        })
+    }
+
+    suspend fun getWeatherFromLocation(location: Location): Result<WeatherResponse> {
+        return safeApiCall(call = {
+            apiWeather.api.getWeatherFromLocation(location.latitude, location.longitude, "metric")
         })
     }
 }
