@@ -97,6 +97,14 @@ class SharedPreferencesModelImpl(private val context: Context): ISharedPreferenc
             .apply()
     }
 
+    override fun setLastCity(city: String) {
+        save(ISharedPreferencesModel.LastCity, city)
+    }
+
+    override fun getLastCity(): String? {
+        return getString(ISharedPreferencesModel.LastCity)
+    }
+
     override fun setHumidity(value: Boolean) {
         save(ISharedPreferencesModel.Humidity, value)
     }

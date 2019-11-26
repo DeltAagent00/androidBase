@@ -1,5 +1,6 @@
 package com.homedev.weather.ui.selectTown.dataTown
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import butterknife.BindView
 import butterknife.ButterKnife
+import com.facebook.drawee.view.SimpleDraweeView
 import com.homedev.weather.R
 import com.homedev.weather.core.model.RequestModel
 import com.homedev.weather.core.model.WeatherViewModel
@@ -59,6 +61,8 @@ class DataTownAdapter: RecyclerView.Adapter<DataTownAdapterHolder>() {
 class DataTownAdapterHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     @BindView(R.id.titleView)
     lateinit var titleView: TextView
+    @BindView(R.id.iconWeatherView)
+    lateinit var iconWeatherView: SimpleDraweeView
     @BindView(R.id.temperature)
     lateinit var temperatureView: View
     private val temperatureTitleView: TextView
@@ -96,6 +100,7 @@ class DataTownAdapterHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         ViewsUtil.clearTextViews(titleView, temperatureTitleView, temperatureValueView,
             humidityTitleView, humidityValueView, windSpeedTitleView, windSpeedValueView,
             pressureTitleView, pressureValueView)
+        ViewsUtil.clearImageView(iconWeatherView)
     }
 
     fun fill(item: WeatherViewModel, requestModel: RequestModel?) {
@@ -106,6 +111,11 @@ class DataTownAdapterHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         setHumidity(item.humidity, requestModel?.isShowHumidity ?: true)
         setWindSpeed(item.windSpeed, requestModel?.isShowWindSpeed ?: true)
         setPressure(item.pressure, requestModel?.isShowPressure ?: true)
+
+        item.iconId?.let {
+            val url = "http://openweathermap.org/img/wn/${it}@2x.png"
+            iconWeatherView.setImageURI(url)
+        }
     }
 
     private fun setTemperature(temperatureValue: Double) {
